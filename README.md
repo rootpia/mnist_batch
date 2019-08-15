@@ -1,14 +1,14 @@
-# MNIST-app frontend  
+# MNIST-app frontend-batch  
 display by a browser  
 
 ## build
 ```shell
-$ docker build -t front .
+$ docker build -t batch .
 ```
 
 ## run
 ```shell
-$ docker run -e MNIST_API_IP=ai -d front
+$ docker run -e MNIST_API_IP=ai -d batch
 ```
 MNIST_API_IP is 'backend container name' or 'backend container IPaddress'.  
 backend port is 5000 only.  
