@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>mnist-app</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="./static/js/app.js"></script>
+    <link rel="stylesheet" href="/static/css/app.css">
+    <script>
+      var img = new Image();
+      img.src = "image/2.png";
+    </script>
+    <script>
+      function draw1(){
+        var ctx = document.getElementById("testimage").getContext("2d");
+        ctx.drawImage(img,0,0);
+      }
+    </script>
+  </head>
+  <body onload="draw1()">
+    <div align="center">
+      <h1>Async apply</h1>
+      <canvas id="testimage" width="280px" height="280px"></canvas>
+      <form action="/" method="post">
+        <input type="number" id="iter-input" name="iter-input" class="iter-input" value="100" />
+        <button type="button" id="runbatch" name="runbatch" value="runbatch" onclick="sendImage()" class="runbatch">Run batch</button>
+      </form>
+      <div id="answer"></div>
+    </div>
+  </body>
+</html>
