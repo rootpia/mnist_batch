@@ -1,34 +1,47 @@
 ﻿// 画像のサーバーへのPOST
 function sendImage() {
     $('#answer').html("")
+    $('ul#anslist > li').each(function(){
+        $(this).remove();
+    });
 
-    var count = 0
+    var summary = new Map();
     var num = document.getElementById("iter-input").valueAsNumber
+    num = Math.round(num)
     var img = document.getElementById("testimage").toDataURL('image/png');
     img = img.replace('image/png', 'image/octet-stream');
-    $.ajax({
-        type: "POST",
-        url: "/api",
-        data: {
-            "img": img
-        }
-    })
-    .done( (data) => {
-        $('#answer').html('predict = <span class="answer">'+data['ans']+'</span>')
-        $('ul#anslist').append('<li>0: '+data['c0']+'</li>');
-        $('ul#anslist').append('<li>1: '+data['c1']+'</li>');
-        $('ul#anslist').append('<li>2: '+data['c2']+'</li>');
-        $('ul#anslist').append('<li>3: '+data['c3']+'</li>');
-        $('ul#anslist').append('<li>4: '+data['c4']+'</li>');
-        $('ul#anslist').append('<li>5: '+data['c5']+'</li>');
-        $('ul#anslist').append('<li>6: '+data['c6']+'</li>');
-        $('ul#anslist').append('<li>7: '+data['c7']+'</li>');
-        $('ul#anslist').append('<li>8: '+data['c8']+'</li>');
-        $('ul#anslist').append('<li>9: '+data['c9']+'</li>');
-    });
+
     for(var ii=0; ii<num; ii++){
-      $('#answer').html('predict = <span class="answer">'+ii+'</span>')
+        $.ajax({
+            type: "POST",
+            url: "/api",
+            data: {
+                "img": img
+            }
+        })
+        .done( (data) => {
+            $('#answer').html('predict = <span class="answer">'+data['ans']+'</span>')
+            // backend実行回数の集計・表示
+            hostname = data['hostname'];
+            if ( summary.has(hostname) == false ){
+                summary.set(hostname, 1);
+                $('ul#anslist').append('<li id='+hostname+'>host='+hostname+': 1</li>');
+            }else{
+                var count = summary.get(hostname)+1;
+                summary.set(hostname, count);
+                if (count % 10 == 0){
+                    $('ul#anslist > li').each(function(){
+                        $(this).remove();
+                    });
+                    summary.forEach(function(value, key){
+                        $('ul#anslist').append('<li id='+key+'>host='+key+': '+value+'</li>');
+                    });
+                }
+//                // うまくいかねえ
+//                var idhost = 'ul#anslist > li#' + hostname;
+//                var objhost = $(idhost)
+//                $(idhost).outerText = hostname+': '+count;
+            }
+        });
     }
 }
-
-
