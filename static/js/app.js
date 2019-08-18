@@ -29,14 +29,12 @@ function sendImage() {
             }else{
                 var count = summary.get(hostname)+1;
                 summary.set(hostname, count);
-                if (count % 10 == 0){
-                    $('ul#anslist > li').each(function(){
-                        $(this).remove();
-                    });
-                    summary.forEach(function(value, key){
-                        $('ul#anslist').append('<li id='+key+'>host='+key+': '+value+'</li>');
-                    });
-                }
+                $('ul#anslist > li').each(function(){
+                    $(this).remove();
+                });
+                summary.forEach(function(value, key){
+                    $('ul#anslist').append('<li id='+key+'>host='+key+': '+value+'</li>');
+                });
 //                // うまくいかねえ
 //                var idhost = 'ul#anslist > li#' + hostname;
 //                var objhost = $(idhost)
